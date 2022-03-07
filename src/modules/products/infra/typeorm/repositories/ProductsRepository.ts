@@ -28,7 +28,9 @@ export class ProductsRepository implements IProductsRepository {
 
 	async listByName(name: string): Promise<Product[]> {
 		const products = await this.repository.find({
-			name
+			where : { name },
+			skip: 0,
+			take: 10,
 		})
 
 		return products
