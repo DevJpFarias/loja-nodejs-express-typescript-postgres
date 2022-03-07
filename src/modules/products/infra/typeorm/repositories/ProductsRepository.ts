@@ -15,7 +15,7 @@ export class ProductsRepository implements IProductsRepository {
 		description,
 		price
 	}: ICreateProductDTO): Promise<Product> {
-		const product = await this.repository.create({
+		const product = this.repository.create({
 			name,
 			description,
 			price
@@ -26,11 +26,19 @@ export class ProductsRepository implements IProductsRepository {
 		return product
 	}
 
-	async showByName(name: string): Promise<Product[]> {
+	async listByName(name: string): Promise<Product[]> {
 		const products = await this.repository.find({
 			name
 		})
 
 		return products
+	}
+
+	async findByName(name: string): Promise<Product | undefined> {
+		const service = await this.repository.findOne({
+			where: { name }
+		})
+
+		return service
 	}
 }

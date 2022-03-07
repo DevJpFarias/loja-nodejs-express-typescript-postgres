@@ -3,5 +3,6 @@ import { ICreateProductDTO } from '../dtos/ICreateProductDTO'
 
 export interface IProductsRepository {
   create(data: ICreateProductDTO): Promise<Product>
-  showByName(name: string): Promise<Product[]>
+  listByName(name: string): Promise<Product[]>
+  findByName(name: string): Promise<Product | undefined>
 }
