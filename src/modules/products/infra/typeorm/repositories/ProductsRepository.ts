@@ -26,6 +26,12 @@ export class ProductsRepository implements IProductsRepository {
 		return product
 	}
 
+	async update(product: Product): Promise<Product> {
+		await this.repository.save(product)
+
+		return product
+	}
+
 	async listByName(name: string): Promise<Product[]> {
 		const products = await this.repository.find({
 			where : { name },
@@ -37,10 +43,16 @@ export class ProductsRepository implements IProductsRepository {
 	}
 
 	async findByName(name: string): Promise<Product | undefined> {
-		const service = await this.repository.findOne({
+		const product = await this.repository.findOne({
 			where: { name }
 		})
 
-		return service
+		return product
+	}
+
+	async findById(id: string): Promise<Product> {
+		const product = await this.repository.findOne(id)
+
+		return product
 	}
 }
