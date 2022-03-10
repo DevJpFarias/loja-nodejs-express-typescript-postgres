@@ -39,10 +39,8 @@ export class ProductsController {
 
 	async delete(request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
-		console.log('id-delete', id)
 
 		const deleteProduct = container.resolve(DeleteProductService)
-		console.log('deleteProduct-Controller', deleteProduct)
 
 		await deleteProduct.execute(id)
 

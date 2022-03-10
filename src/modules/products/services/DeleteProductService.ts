@@ -11,9 +11,8 @@ export class DeleteProductService {
 
 	async execute(id: string): Promise<void> {
 		const product = await this.productsRepository.findById(id)
-		console.log('product-DeleteService', !product)
 
-		if(!product) throw new AppError('Product not found!')
+		if(!product) throw new AppError('Product not found!', 404)
 
 		await this.productsRepository.delete(product)
 	}
