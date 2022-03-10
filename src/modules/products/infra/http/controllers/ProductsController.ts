@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { CreateProductsService } from '../../../services/CreateProductsService'
+import { DeleteProductService } from '../../../services/DeleteProductService'
 import { ListProductsService } from '../../../services/ListProductsService'
 import { UpdateProductService } from '../../../services/UpdateProductService'
 
@@ -34,6 +35,18 @@ export class ProductsController {
 		})
 
 		return response.json(product)
+	}
+
+	async delete(request: Request, response: Response): Promise<Response> {
+		const { id } = request.params
+		console.log('id-delete', id)
+
+		const deleteProduct = container.resolve(DeleteProductService)
+		console.log('deleteProduct-Controller', deleteProduct)
+
+		await deleteProduct.execute(id)
+
+		return response.status(202).send()
 	}
 
 	async listByName(request: Request, response: Response): Promise<Response> {

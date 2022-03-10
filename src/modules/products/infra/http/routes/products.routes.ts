@@ -8,5 +8,6 @@ const productsController = new ProductsController()
 productsRouter.post('/', productsController.create)
 productsRouter.get('/', productsController.listByName)
 productsRouter.put('/:id', productsController.update)
+productsRouter.delete('/delete/:id', productsController.delete)
 
 export { productsRouter }

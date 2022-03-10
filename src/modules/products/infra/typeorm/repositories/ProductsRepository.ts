@@ -32,6 +32,10 @@ export class ProductsRepository implements IProductsRepository {
 		return product
 	}
 
+	async delete(product: Product): Promise<void> {
+		await this.repository.delete(product)
+	}
+
 	async listByName(name: string): Promise<Product[]> {
 		const products = await this.repository.find({
 			where : { name },
@@ -52,6 +56,7 @@ export class ProductsRepository implements IProductsRepository {
 
 	async findById(id: string): Promise<Product> {
 		const product = await this.repository.findOne(id)
+		console.log('product-findById', product)
 
 		return product
 	}

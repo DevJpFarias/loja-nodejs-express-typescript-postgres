@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import cors from 'cors'
 import { routes } from './routes'
 import { errors } from 'celebrate'
+import 'express-async-errors'
 import { AppError } from '../../errors/AppError'
 
 import '../../container'
