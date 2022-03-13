@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { CreateProductsService } from '../../../services/CreateProductsService'
+import { CreateProductsService } from '../../../services/CreateProductService'
 import { DeleteProductService } from '../../../services/DeleteProductService'
 import { ListProductsService } from '../../../services/ListProductsService'
 import { UpdateProductService } from '../../../services/UpdateProductService'

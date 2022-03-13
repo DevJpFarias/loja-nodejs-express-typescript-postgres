@@ -33,7 +33,7 @@ export class ProductsRepository implements IProductsRepository {
 	}
 
 	async delete(product: Product): Promise<void> {
-		await this.repository.delete(product)
+		await this.repository.remove(product)
 	}
 
 	async listByName(name: string): Promise<Product[]> {

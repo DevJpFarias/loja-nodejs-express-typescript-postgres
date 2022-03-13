@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { v4 as uuidV4 } from 'uuid'
+import { v4 as uuid } from 'uuid'
 import { Column, Entity, PrimaryColumn,  } from 'typeorm'
 
 @Entity('products')
@@ -19,7 +19,7 @@ export class Product {
 
   constructor() {
   	if(!this.id) {
-  		this.id = uuidV4()
+  		this.id = uuid()
   	}
   }
 }
