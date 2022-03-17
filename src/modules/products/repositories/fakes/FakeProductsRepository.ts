@@ -2,6 +2,7 @@ import { ICreateProductDTO } from '../../dtos/ICreateProductDTO'
 import { Product } from '../../infra/typeorm/entities/Product'
 import { IProductsRepository } from '../IProductsRepository'
 import { v4 as uuid } from 'uuid'
+import { IDeleteProductDTO } from '../../dtos/IDeleteProductDTO'
 
 export class FakeProductsRepository implements IProductsRepository {
 	products: Product[] = []
@@ -47,8 +48,8 @@ export class FakeProductsRepository implements IProductsRepository {
 		return product
 	}
 
-	async delete(product: Product): Promise<void> {
-		const deleteProduct = this.products.find(delete_product => delete_product.id === product.id)
+	async delete({ id }: IDeleteProductDTO): Promise<void> {
+		const deleteProduct = this.products.find(product => product.id === id)
 
 		const productIndex = this.products.indexOf(deleteProduct)
 

@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe'
 import { AppError } from '../../../shared/errors/AppError'
+import { IDeleteProductDTO } from '../dtos/IDeleteProductDTO'
 import { IProductsRepository } from '../repositories/IProductsRepository'
 
 @injectable()
@@ -9,7 +10,7 @@ export class DeleteProductService {
     private productsRepository: IProductsRepository
 	) {}
 
-	async execute(id: string): Promise<void> {
+	async execute({ id }: IDeleteProductDTO): Promise<void> {
 		const product = await this.productsRepository.findById(id)
 
 		if(!product) throw new AppError('Product not found!', 404)

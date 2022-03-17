@@ -4,10 +4,10 @@ import { IProductsRepository } from '../../../repositories/IProductsRepository'
 import { Product } from '../entities/Product'
 
 export class ProductsRepository implements IProductsRepository {
-	private repository: Repository<Product>
+	private ormRepository: Repository<Product>
 
 	constructor() {
-		this.repository = getRepository(Product)
+		this.ormRepository = getRepository(Product)
 	}
 
 	async create({
@@ -15,29 +15,29 @@ export class ProductsRepository implements IProductsRepository {
 		description,
 		price
 	}: ICreateProductDTO): Promise<Product> {
-		const product = this.repository.create({
+		const product = this.ormRepository.create({
 			name,
 			description,
 			price
 		})
 
-		await this.repository.save(product)
+		await this.ormRepository.save(product)
 
 		return product
 	}
 
 	async update(product: Product): Promise<Product> {
-		await this.repository.save(product)
+		await this.ormRepository.save(product)
 
 		return product
 	}
 
 	async delete(product: Product): Promise<void> {
-		await this.repository.remove(product)
+		await this.ormRepository.remove(product)
 	}
 
 	async listByName(name: string): Promise<Product[]> {
-		const products = await this.repository.find({
+		const products = await this.ormRepository.find({
 			where : { name },
 			skip: 0,
 			take: 10,
@@ -47,7 +47,7 @@ export class ProductsRepository implements IProductsRepository {
 	}
 
 	async findByName(name: string): Promise<Product | undefined> {
-		const product = await this.repository.findOne({
+		const product = await this.ormRepository.findOne({
 			where: { name }
 		})
 
@@ -55,7 +55,7 @@ export class ProductsRepository implements IProductsRepository {
 	}
 
 	async findById(id: string): Promise<Product> {
-		const product = await this.repository.findOne(id)
+		const product = await this.ormRepository.findOne(id)
 		console.log('product-findById', product)
 
 		return product

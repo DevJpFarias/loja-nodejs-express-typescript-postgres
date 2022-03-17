@@ -42,7 +42,9 @@ export class ProductsController {
 
 		const deleteProduct = container.resolve(DeleteProductService)
 
-		await deleteProduct.execute(id)
+		await deleteProduct.execute({
+			id
+		})
 
 		return response.status(202).send()
 	}

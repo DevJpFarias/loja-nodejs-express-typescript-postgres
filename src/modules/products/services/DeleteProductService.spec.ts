@@ -1,3 +1,4 @@
+import { AppError } from '../../../shared/errors/AppError'
 import { FakeProductsRepository } from '../repositories/fakes/FakeProductsRepository'
 import { CreateProductsService } from './CreateProductService'
 import { DeleteProductService } from './DeleteProductService'
@@ -13,6 +14,10 @@ describe('Delete Product', () => {
 		deleteProductService = new DeleteProductService(fakeProductsRepository)
 	})
 
+	it('Should not be able to delete a nonexistent product', async () => {
+		expect(deleteProductService.execute({ id: '1234'})).rejects.toBeInstanceOf(AppError)
+	})
+
 	it('Should be able to delete a product', async () => {
 		const product = await createProductService.execute({
 			name: 'Biscoito recheado',
@@ -20,12 +25,11 @@ describe('Delete Product', () => {
 			price: 2
 		})
 
-		expect(fakeProductsRepository.products).toEqual([product])
+		const spyDelete = jest.spyOn(fakeProductsRepository, 'delete')
 
-		const product_id = product.id
+		await deleteProductService.execute({ id: product.id })
 
-		await deleteProductService.execute(product_id)
-
-		expect(fakeProductsRepository.products).toEqual([])
+		expect(spyDelete).toBeCalledWith(product)
+		expect(spyDelete).toBeCalledTimes(1)
 	})
 })
