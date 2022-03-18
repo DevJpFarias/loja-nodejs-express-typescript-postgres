@@ -1,10 +1,10 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { Column, CreateDateColumn, Entity, UpdateDateColumn,  } from 'typeorm'
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn,  } from 'typeorm'
 import { v4 as uuid } from 'uuid'
 
-@Entity()
+@Entity('users')
 export class User {
-  @Column()
+  @PrimaryColumn()
   	id: string
 
   @Column()

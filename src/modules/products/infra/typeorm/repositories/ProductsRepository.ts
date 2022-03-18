@@ -56,7 +56,6 @@ export class ProductsRepository implements IProductsRepository {
 
 	async findById(id: string): Promise<Product> {
 		const product = await this.ormRepository.findOne(id)
-		console.log('product-findById', product)
 
 		return product
 	}

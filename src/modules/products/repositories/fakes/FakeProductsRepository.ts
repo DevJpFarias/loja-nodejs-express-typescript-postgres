@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid'
 import { IDeleteProductDTO } from '../../dtos/IDeleteProductDTO'
 
 export class FakeProductsRepository implements IProductsRepository {
-	products: Product[] = []
+	private products: Product[] = []
 
 	async create({name, description, price}: ICreateProductDTO): Promise<Product> {
 		const product = new Product()
