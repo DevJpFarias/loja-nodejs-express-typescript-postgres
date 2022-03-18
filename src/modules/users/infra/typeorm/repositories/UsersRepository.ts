@@ -1,5 +1,5 @@
 import { getRepository, Repository } from 'typeorm'
-import { ICreateProductDTO } from '../../../dtos/ICreateUserDTO'
+import { ICreateUserDTO } from '../../../dtos/ICreateUserDTO'
 import { IUsersRepository } from '../../../repositories/IUsersRepository'
 import { User } from '../entities/User'
 
@@ -14,7 +14,7 @@ export class UsersRepository implements IUsersRepository {
 		name,
 		email,
 		password
-	}: ICreateProductDTO): Promise<User> {
+	}: ICreateUserDTO): Promise<User> {
 		const user = this.ormRepository.create({
 			name,
 			email,

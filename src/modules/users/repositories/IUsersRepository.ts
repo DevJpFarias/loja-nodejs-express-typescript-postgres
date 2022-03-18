@@ -1,6 +1,6 @@
-import { ICreateProductDTO } from '../dtos/ICreateUserDTO'
+import { ICreateUserDTO } from '../dtos/ICreateUserDTO'
 import { User } from '../infra/typeorm/entities/User'
 
 export interface IUsersRepository {
-  create(data: ICreateProductDTO): Promise<User>
+  create(data: ICreateUserDTO): Promise<User>
 }
