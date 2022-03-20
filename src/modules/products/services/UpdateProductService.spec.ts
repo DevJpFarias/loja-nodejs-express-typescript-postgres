@@ -1,3 +1,4 @@
+import { AppError } from '../../../shared/errors/AppError'
 import { FakeProductsRepository } from '../repositories/fakes/FakeProductsRepository'
 import { CreateProductsService } from './CreateProductService'
 import { UpdateProductService } from './UpdateProductService'
@@ -31,5 +32,16 @@ describe('Update product', () => {
 		expect(product.name).toBe(update_product.name)
 		expect(product.description).toBe(update_product.description)
 		expect(product.price).toBe(update_product.price)
+	})
+
+	it('Should not be able to update a nonexistent product', async () => {
+		expect(async () => {
+			await updateProductService.execute({
+				id: '1234',
+				name: 'Pizza',
+				description: 'Bacon',
+				price: 100
+			})
+		}).rejects.toBeInstanceOf(AppError)
 	})
 })

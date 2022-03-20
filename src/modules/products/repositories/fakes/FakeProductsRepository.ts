@@ -36,12 +36,6 @@ export class FakeProductsRepository implements IProductsRepository {
 		return allProducts
 	}
 
-	async findByName(name: string): Promise<Product> {
-		const product = this.products.find(product => product.name === name)
-
-		return product
-	}
-
 	async findById(id: string): Promise<Product> {
 		const product = this.products.find(product => product.id === id)
 

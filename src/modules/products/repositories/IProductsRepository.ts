@@ -5,7 +5,6 @@ export interface IProductsRepository {
   create(data: ICreateProductDTO): Promise<Product>
   update(product: Product): Promise<Product>
   listByName(name: string): Promise<Product[]>
-  findByName(name: string): Promise<Product | undefined>
   findById(id: string): Promise<Product>
   delete(product: Product): Promise<void>
 }
