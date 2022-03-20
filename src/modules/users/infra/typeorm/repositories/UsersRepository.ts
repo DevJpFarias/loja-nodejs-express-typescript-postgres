@@ -32,4 +32,10 @@ export class UsersRepository implements IUsersRepository {
 		return user
 	}
 
+	async findById(id: string): Promise<User> {
+		const user = this.ormRepository.findOne(id)
+
+		return user
+	}
+
 }

@@ -22,10 +22,17 @@ export class FakeUsersRepository implements IUsersRepository {
 
 		return user
 	}
-	async findByEmail(email: string): Promise<User> {
-		const verifyEmail = this.usersRepository.find(user => user.email === email)
 
-		return verifyEmail
+	async findByEmail(email: string): Promise<User> {
+		const user = this.usersRepository.find(user => user.email === email)
+
+		return user
+	}
+
+	async findById(id: string): Promise<User> {
+		const user = this.usersRepository.find(user => user.id === id)
+
+		return user
 	}
 
 }
