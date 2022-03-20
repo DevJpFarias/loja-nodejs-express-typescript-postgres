@@ -27,11 +27,9 @@ export class UsersRepository implements IUsersRepository {
 	}
 
 	async findByEmail(email: string): Promise<User> {
-		const verifyEmail = this.ormRepository.findOne({
-			where: email
-		})
+		const user = this.ormRepository.findOne({email})
 
-		return verifyEmail
+		return user
 	}
 
 }
