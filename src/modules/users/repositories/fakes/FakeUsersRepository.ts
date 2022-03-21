@@ -1,3 +1,4 @@
+import { IDeleteProductDTO } from '../../../products/dtos/IDeleteProductDTO'
 import { ICreateUserDTO } from '../../dtos/ICreateUserDTO'
 import { User } from '../../infra/typeorm/entities/User'
 import { IUsersRepository } from '../IUsersRepository'
@@ -33,6 +34,14 @@ export class FakeUsersRepository implements IUsersRepository {
 		const user = this.usersRepository.find(user => user.id === id)
 
 		return user
+	}
+
+	async delete({ id }: IDeleteProductDTO): Promise<void> {
+		const user = this.usersRepository.find(user => user.id === id)
+
+		const findIndex = this.usersRepository.indexOf(user)
+
+		this.usersRepository.splice(findIndex, 1)
 	}
 
 }

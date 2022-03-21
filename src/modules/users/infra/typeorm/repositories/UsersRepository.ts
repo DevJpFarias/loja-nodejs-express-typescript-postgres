@@ -38,4 +38,7 @@ export class UsersRepository implements IUsersRepository {
 		return user
 	}
 
+	async delete(user: User): Promise<void> {
+		await this.ormRepository.remove(user)
+	}
 }
