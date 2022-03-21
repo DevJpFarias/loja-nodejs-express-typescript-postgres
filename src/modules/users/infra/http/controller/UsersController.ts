@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { CreateUserService } from '../../../services/CreateUserService'
+import { DeleteUserService } from '../../../services/DeleteUserService'
 import { UpdateUserService } from '../../../services/UpdateUserService'
 export class UsersController {
 	async create(request: Request, response: Response): Promise<Response> {
@@ -31,5 +32,17 @@ export class UsersController {
 		})
 
 		return response.status(202).json(user)
+	}
+
+	async delete(request: Request, response: Response): Promise<Response> {
+		const { id } = request.params
+
+		const deleteUserService = container.resolve(DeleteUserService)
+
+		await deleteUserService.execute({
+			id
+		})
+
+		return response.status(202).send()
 	}
 }
