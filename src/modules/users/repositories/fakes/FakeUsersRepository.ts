@@ -36,6 +36,20 @@ export class FakeUsersRepository implements IUsersRepository {
 		return user
 	}
 
+	async findByName(name: string): Promise<User[]> {
+		const users = this.usersRepository.filter(user => user.name === name)
+
+		return users
+	}
+
+	async update(user: User): Promise<User> {
+		const findIndexUser = this.usersRepository.findIndex(update_user => update_user.id === user.id)
+
+		this.usersRepository[findIndexUser] = user
+
+		return user
+	}
+
 	async delete({ id }: IDeleteProductDTO): Promise<void> {
 		const user = this.usersRepository.find(user => user.id === id)
 

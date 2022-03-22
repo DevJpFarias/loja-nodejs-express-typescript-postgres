@@ -21,13 +21,17 @@ describe('User update', () => {
 			password: '1234'
 		})
 
+		const spyUpdate = jest.spyOn(fakeUsersRepository, 'update')
+
 		const update_user = await updateUserService.execute({
 			id: user.id,
 			name: 'Paulinho',
 			email: 'joaopaulo@gmail.com',
 			password: '1234'
 		})
-
+		
+		expect(spyUpdate).toBeCalledWith(user)
+		expect(spyUpdate).toBeCalledTimes(1)
 		expect(user.id).toBe(update_user.id)
 		expect(user.name).toBe(update_user.name)
 		expect(user.email).toBe(update_user.email)

@@ -38,6 +38,18 @@ export class UsersRepository implements IUsersRepository {
 		return user
 	}
 
+	async findByName(name: string): Promise<User[]> {
+		const users = this.ormRepository.find({name})
+
+		return users
+	}
+
+	async update(user: User): Promise<User> {
+		await this.ormRepository.save(user)
+		
+		return user
+	}
+
 	async delete(user: User): Promise<void> {
 		await this.ormRepository.remove(user)
 	}

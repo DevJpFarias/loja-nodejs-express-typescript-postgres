@@ -29,6 +29,8 @@ export class UpdateUserService {
 		user.email = email
 		user.password = password
 
+		await this.usersRepository.update(user)
+
 		return user
 	}
 }

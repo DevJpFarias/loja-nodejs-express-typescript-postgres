@@ -5,5 +5,7 @@ export interface IUsersRepository {
   create(data: ICreateUserDTO): Promise<User>
   findByEmail(email: string): Promise<User>
   findById(id: string): Promise<User>
+  findByName(name: string): Promise<User[]>
+  update(user: User): Promise<User>
   delete(user: User): Promise<void>
 }
