@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { CreateUserService } from '../../../services/CreateUserService'
-import { DeleteUserService } from '../../../services/DeleteUserService'
-import { FindUserByIdService } from '../../../services/FindUserByIdService'
-import { FindUsersByNameService } from '../../../services/FindUsersByNameService'
-import { UpdateUserService } from '../../../services/UpdateUserService'
+import { CreateUserService } from '../../../services/CreateUser/CreateUserService'
+import { DeleteUserService } from '../../../services/DeleteUser/DeleteUserService'
+import { FindUserByIdService } from '../../../services/FindUser/FindUserByIdService'
+import { FindUsersByNameService } from '../../../services/ListUsers/ListUsersByNameService'
+import { UpdateUserService } from '../../../services/UpdateUser/UpdateUserService'
 import { instanceToInstance } from 'class-transformer'
 
 export class UsersController {

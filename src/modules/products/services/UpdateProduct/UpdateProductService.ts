@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe'
-import { AppError } from '../../../shared/errors/AppError'
-import { IUpdateProductDTO } from '../dtos/IUpdateProductDTO'
-import { Product } from '../infra/typeorm/entities/Product'
-import { IProductsRepository } from '../repositories/IProductsRepository'
+import { AppError } from '../../../../shared/errors/AppError'
+import { IUpdateProductDTO } from '../../dtos/IUpdateProductDTO'
+import { Product } from '../../infra/typeorm/entities/Product'
+import { IProductsRepository } from '../../repositories/IProductsRepository'
 
 @injectable()
 export class UpdateProductService {

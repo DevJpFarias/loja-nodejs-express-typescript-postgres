@@ -1,4 +1,4 @@
-import  { FakeProductsRepository } from '../repositories/fakes/FakeProductsRepository'
+import  { FakeProductsRepository } from '../../repositories/fakes/FakeProductsRepository'
 import { CreateProductsService } from './CreateProductService'
 
 let fakeProductsRepository: FakeProductsRepository

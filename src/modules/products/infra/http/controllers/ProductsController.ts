@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { CreateProductsService } from '../../../services/CreateProductService'
-import { DeleteProductService } from '../../../services/DeleteProductService'
-import { ListProductsService } from '../../../services/ListProductsService'
-import { UpdateProductService } from '../../../services/UpdateProductService'
+import { CreateProductsService } from '../../../services/CreateProduct/CreateProductService'
+import { DeleteProductService } from '../../../services/DeleteProduct/DeleteProductService'
+import { ListProductsService } from '../../../services/ListProducts/ListProductsService'
+import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProductService'
 
 
 export class ProductsController {

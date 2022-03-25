@@ -1,6 +1,6 @@
-import { FakeUsersRepository } from '../repositories/fakes/FakeUsersRepository'
-import { CreateUserService } from './CreateUserService'
-import { FindUsersByNameService } from './FindUsersByNameService'
+import { FakeUsersRepository } from '../../repositories/fakes/FakeUsersRepository'
+import { CreateUserService } from '../CreateUser/CreateUserService'
+import { FindUsersByNameService } from './ListUsersByNameService'
 
 let fakeUsersRepository: FakeUsersRepository
 let createUserService: CreateUserService

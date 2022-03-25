@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe'
-import { User } from '../infra/typeorm/entities/User'
-import { IUsersRepository } from '../repositories/IUsersRepository'
-import { ICreateUserDTO } from '../dtos/ICreateUserDTO'
-import { AppError } from '../../../shared/errors/AppError'
+import { User } from '../../infra/typeorm/entities/User'
+import { IUsersRepository } from '../../repositories/IUsersRepository'
+import { ICreateUserDTO } from '../../dtos/ICreateUserDTO'
+import { AppError } from '../../../../shared/errors/AppError'
 import { hash } from 'bcrypt'
 
 @injectable()

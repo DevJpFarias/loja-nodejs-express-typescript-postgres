@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe'
-import { Product } from '../infra/typeorm/entities/Product'
-import { IProductsRepository } from '../repositories/IProductsRepository'
+import { Product } from '../../infra/typeorm/entities/Product'
+import { IProductsRepository } from '../../repositories/IProductsRepository'
 
 @injectable()
 export class ListProductsService {

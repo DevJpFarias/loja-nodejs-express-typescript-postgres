@@ -1,6 +1,6 @@
-import { AppError } from '../../../shared/errors/AppError'
-import { FakeProductsRepository } from '../repositories/fakes/FakeProductsRepository'
-import { CreateProductsService } from './CreateProductService'
+import { AppError } from '../../../../shared/errors/AppError'
+import { FakeProductsRepository } from '../../repositories/fakes/FakeProductsRepository'
+import { CreateProductsService } from '../CreateProduct/CreateProductService'
 import { DeleteProductService } from './DeleteProductService'
 
 let fakeProductsRepository: FakeProductsRepository
