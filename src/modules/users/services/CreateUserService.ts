@@ -3,6 +3,7 @@ import { User } from '../infra/typeorm/entities/User'
 import { IUsersRepository } from '../repositories/IUsersRepository'
 import { ICreateUserDTO } from '../dtos/ICreateUserDTO'
 import { AppError } from '../../../shared/errors/AppError'
+import { hash } from 'bcrypt'
 
 @injectable()
 export class CreateUserService {
@@ -20,10 +21,12 @@ export class CreateUserService {
 
 		if(verifyEmail) throw new AppError('Email already exists!')
 
+		const passwordHash = await hash(password, 8)
+
 		const user = await this.usersRepository.create({
 			name,
 			email,
-			password
+			password: passwordHash
 		})
 
 		return user

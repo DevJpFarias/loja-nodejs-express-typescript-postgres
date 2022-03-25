@@ -5,6 +5,8 @@ import { DeleteUserService } from '../../../services/DeleteUserService'
 import { FindUserByIdService } from '../../../services/FindUserByIdService'
 import { FindUsersByNameService } from '../../../services/FindUsersByNameService'
 import { UpdateUserService } from '../../../services/UpdateUserService'
+import { instanceToInstance } from 'class-transformer'
+
 export class UsersController {
 	async create(request: Request, response: Response): Promise<Response> {
 		const { name, email, password } = request.body
@@ -17,7 +19,7 @@ export class UsersController {
 			password
 		})
 
-		return response.status(201).json(user)
+		return response.status(201).json({user: instanceToInstance(user)})
 	}
 
 	async update(request: Request, response: Response): Promise<Response> {
@@ -33,7 +35,7 @@ export class UsersController {
 			password
 		})
 
-		return response.status(202).json(user)
+		return response.status(202).json({user: instanceToInstance(user)})
 	}
 
 	async delete(request: Request, response: Response): Promise<Response> {
@@ -55,7 +57,7 @@ export class UsersController {
 
 		const user = await findUserByIdService.execute(id)
 
-		return response.status(202).json(user)
+		return response.status(202).json({user: instanceToInstance(user)})
 	}
 
 	async findByName(request: Request, response: Response): Promise<Response> {
@@ -65,6 +67,6 @@ export class UsersController {
 
 		const users = await findUsersByNameService.execute(name)
 
-		return response.status(202).json(users)
+		return response.status(202).json({users: instanceToInstance(users)})
 	}
 }

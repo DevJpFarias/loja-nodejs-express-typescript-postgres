@@ -1,5 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn,  } from 'typeorm'
+import { Exclude } from 'class-transformer'
 import { v4 as uuid } from 'uuid'
 
 @Entity('users')
@@ -14,6 +15,7 @@ export class User {
   	email: string 
 
   @Column()
+	@Exclude()
   	password: string
 
 	@Column()
