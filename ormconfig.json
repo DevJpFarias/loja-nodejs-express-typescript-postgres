@@ -1,0 +1,17 @@
+{
+  "type": "postgres",
+  "port": "5432",
+  "host": "localhost",
+  "user": "migufe",
+  "password": "admin",
+  "database": "loja-migufe",
+  "entities": [
+    "./src/modules/**/infra/typeorm/entities/*.ts"
+  ],
+  "migrations": [
+    "./src/shared/infra/typeorm/migrations/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": "./src/shared/infra/typeorm/migrations"
+  }
+}

@@ -6,9 +6,12 @@ import cors from 'cors'
 import { routes } from './routes'
 import { errors } from 'celebrate'
 import { AppError } from '../../errors/AppError'
+import createConnection from '../../infra/typeorm'
 
 import '../../container'
 import '../typeorm'
+
+createConnection()
 
 const app = express()
 

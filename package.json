@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
-    "test": "SET NODE_ENV=test && jest"
+    "test": "SET NODE_ENV=test && jest",
+    "seed:admin": "ts-node-dev src/shared/infra/typeorm/seed/admin.ts"
   },
   "keywords": [],
   "author": "",

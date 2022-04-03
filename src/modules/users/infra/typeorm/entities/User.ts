@@ -7,6 +7,12 @@ import { v4 as uuid } from 'uuid'
 export class User {
   @PrimaryColumn()
   	id: string
+	
+	@CreateDateColumn()
+  	created_at: Date
+
+  @UpdateDateColumn()
+  	updated_at: Date
 
   @Column()
   	name: string
@@ -20,16 +26,10 @@ export class User {
 
 	@Column()
 		isAdmin: boolean
-
-  @CreateDateColumn()
-  	created_at: Date
-
-  @UpdateDateColumn()
-  	updated_at: Date
-
-  constructor() {
+	
+	constructor() {
   	if(!this.id) {
   		this.id = uuid()
   	}
-  }
+	}
 }
