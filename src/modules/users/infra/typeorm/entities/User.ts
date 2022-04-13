@@ -1,11 +1,10 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn,  } from 'typeorm'
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn,  } from 'typeorm'
 import { Exclude } from 'class-transformer'
-import { v4 as uuid } from 'uuid'
 
 @Entity('users')
 export class User {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   	id: string
 	
 	@CreateDateColumn()
@@ -26,10 +25,4 @@ export class User {
 
 	@Column()
 		isAdmin: boolean
-	
-	constructor() {
-  	if(!this.id) {
-  		this.id = uuid()
-  	}
-	}
 }

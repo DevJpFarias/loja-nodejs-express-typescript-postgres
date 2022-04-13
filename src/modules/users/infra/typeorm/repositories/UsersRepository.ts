@@ -1,4 +1,5 @@
-import { getRepository, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
+import { PostgresDataSource } from '../../../../../shared/infra/typeorm/index'
 import { ICreateUserDTO } from '../../../dtos/ICreateUserDTO'
 import { IUsersRepository } from '../../../repositories/IUsersRepository'
 import { User } from '../entities/User'
@@ -7,7 +8,7 @@ export class UsersRepository implements IUsersRepository {
 	private ormRepository: Repository<User>
 
 	constructor() {
-		this.ormRepository = getRepository(User)
+		this.ormRepository = PostgresDataSource.getRepository(User)
 	}
 
 	async create({
@@ -27,19 +28,29 @@ export class UsersRepository implements IUsersRepository {
 	}
 
 	async findByEmail(email: string): Promise<User> {
-		const user = this.ormRepository.findOne({email})
+		const user = this.ormRepository.findOne({
+			where: {
+				email: email
+			}
+		})
 
 		return user
 	}
 
 	async findById(id: string): Promise<User> {
-		const user = this.ormRepository.findOne(id)
+		const user = this.ormRepository.findOne({
+			where: {
+				id: id
+			}
+		})
 
 		return user
 	}
 
 	async findByName(name: string): Promise<User[]> {
-		const users = this.ormRepository.find({name})
+		const users = this.ormRepository.findBy({
+			name: name
+		})
 
 		return users
 	}

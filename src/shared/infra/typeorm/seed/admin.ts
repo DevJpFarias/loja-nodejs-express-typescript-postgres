@@ -1,10 +1,10 @@
 import { hash } from 'bcrypt'
 import { v4 as uuid } from 'uuid'
 
-import createConnection from '../index'
+import { PostgresDataSource } from '../index'
 
 async function create() {
-	const connection = await createConnection('localhost')
+	const connection = await PostgresDataSource.initialize()
 
 	const id = uuid()
 	const password = await hash('admin', 8)
@@ -14,7 +14,7 @@ async function create() {
     values('${id}', 'now()', 'now()', 'JP_Admin', 'admin@migufes.com.br', '${password}', 'true')
   `)
 
-	await connection.close
+	await connection.destroy()
 }
 
 create().then(() => console.log('User admin created!'))

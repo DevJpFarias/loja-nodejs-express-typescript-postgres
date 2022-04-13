@@ -1,12 +1,17 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { v4 as uuid } from 'uuid'
-import { Column, Entity, PrimaryColumn,  } from 'typeorm'
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn,  } from 'typeorm'
 
 @Entity('products')
 export class Product {
   
-  @PrimaryColumn()	
+  @PrimaryGeneratedColumn('uuid')	
   	id: string
+
+	@CreateDateColumn()
+  	created_at: Date
+
+  @UpdateDateColumn()
+  	updated_at: Date
 
   @Column()
   	name: string
@@ -16,10 +21,4 @@ export class Product {
 
   @Column()
   	price: number
-
-  constructor() {
-  	if(!this.id) {
-  		this.id = uuid()
-  	}
-  }
 }

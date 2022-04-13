@@ -10,7 +10,19 @@ export class CreateProducts1646602094921 implements MigrationInterface {
 					{
 						name: 'id',
 						type: 'uuid',
-						isPrimary: true
+						isPrimary: true,
+						generationStrategy: 'uuid',
+						default: 'uuid_generate_v4()'
+					},
+					{
+						name: 'created_at',
+						type: 'timestamp',
+						default: 'now()'
+					},
+					{
+						name: 'updated_at',
+						type: 'timestamp',
+						default: 'now()'
 					},
 					{
 						name: 'name',

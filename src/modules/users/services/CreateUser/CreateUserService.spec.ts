@@ -12,13 +12,16 @@ describe('User creation', () => {
 	})
 
 	it('Should be able to create a new user', async () => {
+		const spyCreate = jest.spyOn(fakeUsersRepository, 'create')
+
 		const user = await createUserService.execute({
 			name: 'João Paulo',
 			email: 'joaopaulo@gmail.com',
 			password: '1234'
 		})
 
-		expect(user).toHaveProperty('id')
+		expect(spyCreate).toBeCalledWith(user)
+		expect(spyCreate).toBeCalledTimes(1)
 	})
 
 	it('Should not be able to create a new user with an existent email', async () => {

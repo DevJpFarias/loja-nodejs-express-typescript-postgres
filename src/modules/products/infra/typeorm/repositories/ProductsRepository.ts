@@ -1,4 +1,5 @@
-import { getRepository, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
+import { PostgresDataSource } from '../../../../../shared/infra/typeorm/index'
 import { ICreateProductDTO } from '../../../dtos/ICreateProductDTO'
 import { IProductsRepository } from '../../../repositories/IProductsRepository'
 import { Product } from '../entities/Product'
@@ -7,7 +8,7 @@ export class ProductsRepository implements IProductsRepository {
 	private ormRepository: Repository<Product>
 
 	constructor() {
-		this.ormRepository = getRepository(Product)
+		this.ormRepository = PostgresDataSource.getRepository(Product)
 	}
 
 	async create({
@@ -47,7 +48,11 @@ export class ProductsRepository implements IProductsRepository {
 	}
 
 	async findById(id: string): Promise<Product> {
-		const product = await this.ormRepository.findOne(id)
+		const product = await this.ormRepository.findOne({
+			where: {
+				id: id
+			}
+		})
 
 		return product
 	}
