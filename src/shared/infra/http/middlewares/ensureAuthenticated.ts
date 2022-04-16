@@ -10,7 +10,7 @@ interface IPayload {
 export async function ensureAuthenticated(request: Request, response: Response, next: NextFunction) {
 	const authHeader = request.headers.authorization
 
-	if(!authHeader) throw new AppError('Token Missing!')
+	if(!authHeader) throw new AppError('Token Missing!', 401)
 
 	const [, token] = authHeader.split(' ')
 
