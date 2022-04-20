@@ -8,7 +8,8 @@ const productsRouter = Router()
 const productsController = new ProductsController()
 
 productsRouter.post('/', ensureAuthenticated, ensureAdmin, productsController.create)
-productsRouter.get('/', productsController.listByName)
+productsRouter.get('/listByName/', productsController.listByName)
+productsRouter.get('/', productsController.listAll)
 productsRouter.put('/:id', ensureAuthenticated, ensureAdmin, productsController.update)
 productsRouter.delete('/delete/:id', ensureAuthenticated, ensureAdmin, productsController.delete)
 

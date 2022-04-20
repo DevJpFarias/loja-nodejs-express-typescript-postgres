@@ -3,9 +3,10 @@ import { container } from 'tsyringe'
 import { CreateUserService } from '../../../services/CreateUser/CreateUserService'
 import { DeleteUserService } from '../../../services/DeleteUser/DeleteUserService'
 import { FindUserByIdService } from '../../../services/FindUser/FindUserByIdService'
-import { FindUsersByNameService } from '../../../services/ListUsers/ListUsersByNameService'
+import { FindUsersByNameService } from '../../../services/ListUsersByName/ListUsersByNameService'
 import { UpdateUserService } from '../../../services/UpdateUser/UpdateUserService'
 import { instanceToInstance } from 'class-transformer'
+import { ListAllProductsService } from '../../../../products/services/ListAllProducts/ListAllProductsService'
 
 export class UsersController {
 	async create(request: Request, response: Response): Promise<Response> {
@@ -68,5 +69,13 @@ export class UsersController {
 		const users = await findUsersByNameService.execute(name)
 
 		return response.status(202).json({users: instanceToInstance(users)})
+	}
+
+	async listAll(request: Request, response: Response): Promise<Response> {
+		const listAllUsersService = container.resolve(ListAllProductsService)
+
+		const users = await listAllUsersService.execute()
+
+		return response.json(users)
 	}
 }

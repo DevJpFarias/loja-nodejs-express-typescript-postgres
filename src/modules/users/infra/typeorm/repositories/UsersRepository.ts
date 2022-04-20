@@ -55,6 +55,12 @@ export class UsersRepository implements IUsersRepository {
 		return users
 	}
 
+	async listAll(): Promise<User[]> {
+		const users = this.ormRepository.find()
+
+		return users
+	}
+
 	async update(user: User): Promise<User> {
 		await this.ormRepository.save(user)
 		

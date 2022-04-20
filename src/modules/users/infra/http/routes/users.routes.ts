@@ -13,5 +13,6 @@ usersRouter.put('/update/:id', ensureAuthenticated, usersController.update)
 usersRouter.delete('/delete/:id', ensureAuthenticated, usersController.delete)
 usersRouter.get('/findById/:id', ensureAuthenticated, ensureAdmin, usersController.findById)
 usersRouter.get('/findByName', ensureAuthenticated, ensureAdmin, usersController.findByName)
+usersRouter.get('/', usersController.listAll)
 
 export { usersRouter }
