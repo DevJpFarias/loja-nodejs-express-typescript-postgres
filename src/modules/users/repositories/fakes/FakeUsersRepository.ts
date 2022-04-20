@@ -42,6 +42,12 @@ export class FakeUsersRepository implements IUsersRepository {
 		return users
 	}
 
+	async listAll(): Promise<User[]> {
+		const users = this.usersRepository.map(users => users)
+
+		return users
+	}
+
 	async update(user: User): Promise<User> {
 		const findIndexUser = this.usersRepository.findIndex(update_user => update_user.id === user.id)
 

@@ -2,7 +2,8 @@ import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { CreateProductsService } from '../../../services/CreateProduct/CreateProductService'
 import { DeleteProductService } from '../../../services/DeleteProduct/DeleteProductService'
-import { ListProductsService } from '../../../services/ListProducts/ListProductsService'
+import { ListAllProductsService } from '../../../services/ListAllProducts/ListAllProductsService'
+import { ListProductsByNameService } from '../../../services/ListProductsByName/ListProductsByNameService'
 import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProductService'
 
 
@@ -52,9 +53,17 @@ export class ProductsController {
 	async listByName(request: Request, response: Response): Promise<Response> {
 		const { name } = request.body
 
-		const listProducts = container.resolve(ListProductsService)
+		const listProductsByNameService = container.resolve(ListProductsByNameService)
 
-		const products = await listProducts.execute(name)
+		const products = await listProductsByNameService.execute(name)
+
+		return response.json(products)
+	}
+
+	async listAll(request: Request, response: Response): Promise<Response> {
+		const listAllProductsService = container.resolve(ListAllProductsService)
+
+		const products = await listAllProductsService.execute()
 
 		return response.json(products)
 	}

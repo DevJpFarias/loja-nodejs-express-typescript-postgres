@@ -31,9 +31,15 @@ export class FakeProductsRepository implements IProductsRepository {
 	}
 
 	async listByName(name: string): Promise<Product[]> {
-		const allProducts = this.products.filter(product => product.name === name)
+		const products = this.products.filter(product => product.name === name)
 
-		return allProducts
+		return products
+	}
+
+	async listAll(): Promise<Product[]> {
+		const products = this.products.map(users => users)
+
+		return products
 	}
 
 	async findById(id: string): Promise<Product> {
