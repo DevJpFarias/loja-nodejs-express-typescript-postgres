@@ -1,15 +1,15 @@
 import 'reflect-metadata'
 import { Request, Response } from 'express'
-import { container, inject, injectable } from 'tsyringe'
+import { container } from 'tsyringe'
 import { CreateProductsService } from '../../../services/CreateProduct/CreateProductService'
 import { DeleteProductService } from '../../../services/DeleteProduct/DeleteProductService'
 import { ListAllProductsService } from '../../../services/ListAllProducts/ListAllProductsService'
 import { ListProductsByNameService } from '../../../services/ListProductsByName/ListProductsByNameService'
 import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProductService'
+import { Controller } from '../../../../../protocols/controller'
 
-@injectable()
-export class ProductsController {
-	async create(request: Request, response: Response): Promise<Response> {
+export class CreateProductsController implements Controller {
+	async handle (request: Request, response: Response): Promise<Response> {
 		const { name, description, price } = request.body
 
 		const createProductsService = container.resolve(CreateProductsService)
@@ -22,8 +22,10 @@ export class ProductsController {
 
 		return response.status(201).json(product)
 	}
+}
 
-	async update(request: Request, response: Response): Promise<Response> {
+export class UpdateProductsController implements Controller {
+	async handle (request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 		const { name, description, price } = request.body
 
@@ -38,8 +40,10 @@ export class ProductsController {
 
 		return response.json(product)
 	}
+}
 
-	async delete(request: Request, response: Response): Promise<Response> {
+export class DeleteProductsService implements Controller {
+	async handle (request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 
 		const deleteProductService = container.resolve(DeleteProductService)
@@ -50,8 +54,10 @@ export class ProductsController {
 
 		return response.status(202).json(product)
 	}
+}
 
-	async listByName(request: Request, response: Response): Promise<Response> {
+export class ListByNameController implements Controller {
+	async handle (request: Request, response: Response): Promise<Response> {
 		const { name } = request.body
 
 		const listProductsByNameService = container.resolve(ListProductsByNameService)
@@ -60,8 +66,10 @@ export class ProductsController {
 
 		return response.json(products)
 	}
+}
 
-	async listAll(request: Request, response: Response): Promise<Response> {
+export class ListAllProductsController implements Controller {
+	async handle (request: Request, response: Response): Promise<Response> {
 		const listAllProductsService = container.resolve(ListAllProductsService)
 
 		const products = await listAllProductsService.execute()
