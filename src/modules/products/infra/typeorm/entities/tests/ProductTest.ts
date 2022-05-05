@@ -1,12 +1,12 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn,  } from 'typeorm'
-import { Exclude } from 'class-transformer'
 
-@Entity('users')
-export class User {
-  @PrimaryGeneratedColumn('uuid')
+@Entity('products')
+export class Product {
+  
+  @PrimaryGeneratedColumn('uuid')	
   	id: string
-	
+
 	@CreateDateColumn()
   	created_at: Date
 
@@ -15,20 +15,10 @@ export class User {
 
   @Column()
   	name: string
+  
+  @Column()
+  	description: string
 
   @Column()
-  	email: string 
-
-  @Column()
-	@Exclude()
-  	password: string
-
-	@Column()
-		isAdmin: boolean
-	
-	constructor() {
-		if(!this.isAdmin) {
-			this.isAdmin = false
-		}
-	}
+  	price: number
 }

@@ -6,18 +6,15 @@ import cors from 'cors'
 import { routes } from './routes'
 import { errors } from 'celebrate'
 import { AppError } from '../../errors/AppError'
-import { PostgresDataSource } from '../typeorm/index'
+import { PostgresDataSource } from '../typeorm/connections/index'
 
 import '../../container'
-import '../typeorm'
+import '../typeorm/connections'
 
 PostgresDataSource.initialize()
-// .then(() => {
-// 	console.log('Data Source has been initialized!')
-// })
-// .catch((err) => {
-// 	console.error('Error during Data Source initialization', err)
-// })
+	.catch((err) => {
+		console.error('Error during Data Source initialization', err)
+	})
 
 const app = express()
 

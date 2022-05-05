@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm'
-import { PostgresDataSource } from '../../../../../shared/infra/typeorm/index'
+import { PostgresDataSource } from '../../../../../shared/infra/typeorm/connections/index'
 import { ICreateProductDTO } from '../../../dtos/ICreateProductDTO'
 import { IProductsRepository } from '../../../repositories/IProductsRepository'
 import { Product } from '../entities/Product'

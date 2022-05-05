@@ -1,19 +1,20 @@
+import 'reflect-metadata'
 import { Request, Response } from 'express'
-import { container } from 'tsyringe'
+import { container, inject, injectable } from 'tsyringe'
 import { CreateProductsService } from '../../../services/CreateProduct/CreateProductService'
 import { DeleteProductService } from '../../../services/DeleteProduct/DeleteProductService'
 import { ListAllProductsService } from '../../../services/ListAllProducts/ListAllProductsService'
 import { ListProductsByNameService } from '../../../services/ListProductsByName/ListProductsByNameService'
 import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProductService'
 
-
+@injectable()
 export class ProductsController {
 	async create(request: Request, response: Response): Promise<Response> {
 		const { name, description, price } = request.body
 
-		const createProducts = container.resolve(CreateProductsService)
+		const createProductsService = container.resolve(CreateProductsService)
 
-		const product = await createProducts.execute({
+		const product = await createProductsService.execute({
 			name,
 			description,
 			price
@@ -26,9 +27,9 @@ export class ProductsController {
 		const { id } = request.params
 		const { name, description, price } = request.body
 
-		const updateProduct = container.resolve(UpdateProductService)
+		const updateProductService = container.resolve(UpdateProductService)
 
-		const product = await updateProduct.execute({
+		const product = await updateProductService.execute({
 			id,
 			name,
 			description,
@@ -41,13 +42,13 @@ export class ProductsController {
 	async delete(request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 
-		const deleteProduct = container.resolve(DeleteProductService)
+		const deleteProductService = container.resolve(DeleteProductService)
 
-		await deleteProduct.execute({
+		const product  = await deleteProductService.execute({
 			id
 		})
 
-		return response.status(202).send()
+		return response.status(202).json(product)
 	}
 
 	async listByName(request: Request, response: Response): Promise<Response> {

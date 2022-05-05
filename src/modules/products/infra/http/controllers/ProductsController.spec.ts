@@ -1,29 +1,34 @@
 import request from 'supertest'
-import { app } from '../../../../../shared/infra/http/app'
 import { hash } from 'bcrypt'
 import { v4 as uuid } from 'uuid'
 import { DataSource } from 'typeorm'
-import { TestDataSource } from '../../../../../shared/infra/typeorm'
+import { Product } from '../../typeorm/entities/Product'
+import { User } from '../../../../users/infra/typeorm/entities/User'
+import { ProductsController } from './ProductsController'
+import { CreateProductsService } from '../../../services/CreateProduct/CreateProductService'
+import { app } from '../../../../../shared/infra/http/app'
+import { Express } from 'express'
+import { FakeProductsRepository } from '../../../repositories/fakes/FakeProductsRepository'
+import { DeleteProductService } from '../../../services/DeleteProduct/DeleteProductService'
+import { ListAllProductsService } from '../../../services/ListAllProducts/ListAllProductsService'
+import { ListProductsByNameService } from '../../../services/ListProductsByName/ListProductsByNameService'
+import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProductService'
 
-let connection: DataSource
+let fakeProductsRepository: FakeProductsRepository
+
+let createProductsService: CreateProductsService
+let deleteProductService: DeleteProductService
+let listAllProductsService: ListAllProductsService
+let listProductsByNameService: ListProductsByNameService
+let updateProductService: UpdateProductService
+
+jest.mock('supertest')
 
 describe('Products Controller Test', () => {
 	beforeAll(async () => {
-		connection = await TestDataSource.initialize()
-		await connection.runMigrations()
-
-		const id = uuid()
-		const password = await hash('admin', 8)
-
-		await connection.query(`
-    INSERT INTO USERS(id, created_at, updated_at, name, email, password, "isAdmin")
-    values('${id}', 'now()', 'now()', 'JP_Admin', 'admin@migufes.com.br', '${password}', 'true')
-  `)
-	})
-
-	afterAll(async () => {
-		await connection.dropDatabase()
-		await connection.destroy()
+		fakeProductsRepository = new FakeProductsRepository()
+		createProductsService = new CreateProductsService(fakeProductsRepository)
+		deleteProductService = new DeleteProductService(fakeProductsRepository)
 	})
 
 	it('Should be able to create a product if user is an admin', async () => {
@@ -41,6 +46,13 @@ describe('Products Controller Test', () => {
 		}).set({
 			Authorization: `Bearer ${token}`
 		})
+
+		//Só visualizando
+		const products = await request(app).get('/products')
+		const users = await request(app).get('users')
+
+		console.log('products', products)
+		console.log('users', users)
 
 		expect(response.status).toBe(201)
 	})
@@ -66,6 +78,13 @@ describe('Products Controller Test', () => {
 		}).set({
 			Authorization: `Bearer ${token}`
 		})
+
+		//Só visualizando
+		const products = await request(app).get('/products')
+		const users = await request(app).get('users')
+
+		console.log('products', products)
+		console.log('users', users)
 
 		expect(response.status).toBe(400)
 	})
@@ -97,6 +116,12 @@ describe('Products Controller Test', () => {
 			Authorization: `Bearer ${token}`
 		})
 
+		//Só visualizando
+		const products = await request(app).get('/products')
+		const users = await request(app).get('users')
+
+		console.log('products', products)
+		console.log('users', users)
 
 		expect(response.status).toBe(200)
 	})
@@ -134,6 +159,12 @@ describe('Products Controller Test', () => {
 			Authorization: `Bearer ${token}`
 		})
 
+		//Só visualizando
+		const products = await request(app).get('/products')
+		const users = await request(app).get('users')
+
+		console.log('products', products)
+		console.log('users', users)
 
 		expect(response.status).toBe(400)
 	})
@@ -160,6 +191,13 @@ describe('Products Controller Test', () => {
 			.set({
 				Authorization: `Bearer ${token}`
 			})
+
+		//Só visualizando
+		const products = await request(app).get('/products')
+		const users = await request(app).get('users')
+
+		console.log('products', products)
+		console.log('users', users)
 
 		expect(response.status).toBe(202)
 	})
@@ -193,6 +231,13 @@ describe('Products Controller Test', () => {
 				Authorization: `Bearer ${token}`
 			})
 
+		//Só visualizando
+		const products = await request(app).get('/products')
+		const users = await request(app).get('users')
+
+		console.log('products', products)
+		console.log('users', users)
+
 		expect(response.status).toBe(400)
 	})
 
@@ -204,7 +249,7 @@ describe('Products Controller Test', () => {
 
 		const { token } = responseToken.body
 
-		const responseCreate = await request(app).post('/products').send({
+		await request(app).post('/products').send({
 			name: 'Biscoito',
 			description: 'Sabor morango',
 			price: 3
@@ -216,7 +261,14 @@ describe('Products Controller Test', () => {
 			name: 'Biscoito'
 		})
 
+		//Só visualizando
+		const products = await request(app).get('/products')
+		const users = await request(app).get('users')
+
+		console.log('products', products)
+		console.log('users', users)
+
 		expect(response.status).toBe(200)
-		expect(response.body.length).toEqual(10)
+		expect(response.body.length).toEqual(3)
 	})
 })

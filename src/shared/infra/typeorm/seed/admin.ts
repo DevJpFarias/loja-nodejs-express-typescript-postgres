@@ -1,7 +1,7 @@
 import { hash } from 'bcrypt'
 import { v4 as uuid } from 'uuid'
 
-import { PostgresDataSource } from '../index'
+import { PostgresDataSource } from '../connections/index'
 
 async function create() {
 	const connection = await PostgresDataSource.initialize()
