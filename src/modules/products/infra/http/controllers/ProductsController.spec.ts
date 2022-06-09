@@ -1,34 +1,37 @@
-import request from 'supertest'
 import { hash } from 'bcrypt'
 import { v4 as uuid } from 'uuid'
+import request from 'supertest'
 import { DataSource } from 'typeorm'
+import { app } from '../../../../../shared/infra/http/app'
+import { TestsDataSource } from '../../../../../shared/infra/typeorm/connections/tests'
 import { Product } from '../../typeorm/entities/Product'
 import { User } from '../../../../users/infra/typeorm/entities/User'
-import { ProductsController } from './ProductsController'
-import { CreateProductsService } from '../../../services/CreateProduct/CreateProductService'
-import { app } from '../../../../../shared/infra/http/app'
-import { Express } from 'express'
-import { FakeProductsRepository } from '../../../repositories/fakes/FakeProductsRepository'
-import { DeleteProductService } from '../../../services/DeleteProduct/DeleteProductService'
-import { ListAllProductsService } from '../../../services/ListAllProducts/ListAllProductsService'
-import { ListProductsByNameService } from '../../../services/ListProductsByName/ListProductsByNameService'
-import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProductService'
-
-let fakeProductsRepository: FakeProductsRepository
-
-let createProductsService: CreateProductsService
-let deleteProductService: DeleteProductService
-let listAllProductsService: ListAllProductsService
-let listProductsByNameService: ListProductsByNameService
-let updateProductService: UpdateProductService
-
-jest.mock('supertest')
 
 describe('Products Controller Test', () => {
+	let connection: DataSource
+
 	beforeAll(async () => {
-		fakeProductsRepository = new FakeProductsRepository()
-		createProductsService = new CreateProductsService(fakeProductsRepository)
-		deleteProductService = new DeleteProductService(fakeProductsRepository)
+		connection = await TestsDataSource.initialize()
+		await connection.runMigrations()
+	})
+
+	beforeEach(async () => {
+		const id = uuid()
+		const password = await hash('admin', 8)
+
+		await connection.query(`
+    INSERT INTO USERS(id, created_at, updated_at, name, email, password, "isAdmin")
+    values('${id}', 'now()', 'now()', 'JP_Admin', 'admin@migufes.com.br', '${password}', 'true')
+  `)
+	})
+
+	afterEach(async () => {
+		await connection.manager.clear(Product)
+		await connection.manager.clear(User)
+	})
+
+	afterAll(async () => {
+		await connection.destroy()
 	})
 
 	it('Should be able to create a product if user is an admin', async () => {
@@ -47,14 +50,8 @@ describe('Products Controller Test', () => {
 			Authorization: `Bearer ${token}`
 		})
 
-		//Só visualizando
-		const products = await request(app).get('/products')
-		const users = await request(app).get('users')
-
-		console.log('products', products)
-		console.log('users', users)
-
 		expect(response.status).toBe(201)
+
 	})
 
 	it('Should not be able to create a product if user is not an admin', async () => {
@@ -79,14 +76,7 @@ describe('Products Controller Test', () => {
 			Authorization: `Bearer ${token}`
 		})
 
-		//Só visualizando
-		const products = await request(app).get('/products')
-		const users = await request(app).get('users')
-
-		console.log('products', products)
-		console.log('users', users)
-
-		expect(response.status).toBe(400)
+		expect(response.status).toBe(403)
 	})
 
 	it('Should be able to update an existent product if user is an admin', async () => {
@@ -115,13 +105,6 @@ describe('Products Controller Test', () => {
 		}).set({
 			Authorization: `Bearer ${token}`
 		})
-
-		//Só visualizando
-		const products = await request(app).get('/products')
-		const users = await request(app).get('users')
-
-		console.log('products', products)
-		console.log('users', users)
 
 		expect(response.status).toBe(200)
 	})
@@ -159,14 +142,7 @@ describe('Products Controller Test', () => {
 			Authorization: `Bearer ${token}`
 		})
 
-		//Só visualizando
-		const products = await request(app).get('/products')
-		const users = await request(app).get('users')
-
-		console.log('products', products)
-		console.log('users', users)
-
-		expect(response.status).toBe(400)
+		expect(response.status).toBe(403)
 	})
 
 	it('Should be able to delete an existent product if user is an admin', async () => {
@@ -191,13 +167,6 @@ describe('Products Controller Test', () => {
 			.set({
 				Authorization: `Bearer ${token}`
 			})
-
-		//Só visualizando
-		const products = await request(app).get('/products')
-		const users = await request(app).get('users')
-
-		console.log('products', products)
-		console.log('users', users)
 
 		expect(response.status).toBe(202)
 	})
@@ -231,14 +200,7 @@ describe('Products Controller Test', () => {
 				Authorization: `Bearer ${token}`
 			})
 
-		//Só visualizando
-		const products = await request(app).get('/products')
-		const users = await request(app).get('users')
-
-		console.log('products', products)
-		console.log('users', users)
-
-		expect(response.status).toBe(400)
+		expect(response.status).toBe(403)
 	})
 
 	it('Should be able to list products if user is an admin', async () => {
@@ -261,14 +223,7 @@ describe('Products Controller Test', () => {
 			name: 'Biscoito'
 		})
 
-		//Só visualizando
-		const products = await request(app).get('/products')
-		const users = await request(app).get('users')
-
-		console.log('products', products)
-		console.log('users', users)
-
 		expect(response.status).toBe(200)
-		expect(response.body.length).toEqual(3)
+		expect(response.body.length).toEqual(1)
 	})
 })
