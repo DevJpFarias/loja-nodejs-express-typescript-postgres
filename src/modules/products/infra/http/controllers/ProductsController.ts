@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { CreateProductsService } from '../../../services/CreateProduct/CreateProductService'
@@ -6,14 +7,13 @@ import { ListAllProductsService } from '../../../services/ListAllProducts/ListAl
 import { ListProductsByNameService } from '../../../services/ListProductsByName/ListProductsByNameService'
 import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProductService'
 
-
 export class ProductsController {
-	async create(request: Request, response: Response): Promise<Response> {
+	async create (request: Request, response: Response): Promise<Response> {
 		const { name, description, price } = request.body
 
-		const createProducts = container.resolve(CreateProductsService)
+		const createProductsService = container.resolve(CreateProductsService)
 
-		const product = await createProducts.execute({
+		const product = await createProductsService.execute({
 			name,
 			description,
 			price
@@ -22,13 +22,13 @@ export class ProductsController {
 		return response.status(201).json(product)
 	}
 
-	async update(request: Request, response: Response): Promise<Response> {
+	async update (request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 		const { name, description, price } = request.body
 
-		const updateProduct = container.resolve(UpdateProductService)
+		const updateProductService = container.resolve(UpdateProductService)
 
-		const product = await updateProduct.execute({
+		const product = await updateProductService.execute({
 			id,
 			name,
 			description,
@@ -38,19 +38,19 @@ export class ProductsController {
 		return response.json(product)
 	}
 
-	async delete(request: Request, response: Response): Promise<Response> {
+	async delete (request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 
-		const deleteProduct = container.resolve(DeleteProductService)
+		const deleteProductService = container.resolve(DeleteProductService)
 
-		await deleteProduct.execute({
+		const product  = await deleteProductService.execute({
 			id
 		})
 
-		return response.status(202).send()
+		return response.status(202).json(product)
 	}
 
-	async listByName(request: Request, response: Response): Promise<Response> {
+	async listByName (request: Request, response: Response): Promise<Response> {
 		const { name } = request.body
 
 		const listProductsByNameService = container.resolve(ListProductsByNameService)
@@ -60,7 +60,7 @@ export class ProductsController {
 		return response.json(products)
 	}
 
-	async listAll(request: Request, response: Response): Promise<Response> {
+	async listAll (request: Request, response: Response): Promise<Response> {
 		const listAllProductsService = container.resolve(ListAllProductsService)
 
 		const products = await listAllProductsService.execute()

@@ -1,14 +1,14 @@
 import { Repository } from 'typeorm'
-import { PostgresDataSource } from '../../../../../shared/infra/typeorm/index'
 import { ICreateProductDTO } from '../../../dtos/ICreateProductDTO'
 import { IProductsRepository } from '../../../repositories/IProductsRepository'
 import { Product } from '../entities/Product'
+import { database } from '../../../../../shared/helpers/database-connection-helper'
 
 export class ProductsRepository implements IProductsRepository {
 	private ormRepository: Repository<Product>
 
 	constructor() {
-		this.ormRepository = PostgresDataSource.getRepository(Product)
+		this.ormRepository = database.getRepository(Product)
 	}
 
 	async create({

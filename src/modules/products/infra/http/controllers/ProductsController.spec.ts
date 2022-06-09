@@ -1,17 +1,21 @@
-import request from 'supertest'
-import { app } from '../../../../../shared/infra/http/app'
 import { hash } from 'bcrypt'
 import { v4 as uuid } from 'uuid'
+import request from 'supertest'
 import { DataSource } from 'typeorm'
-import { TestDataSource } from '../../../../../shared/infra/typeorm'
-
-let connection: DataSource
+import { app } from '../../../../../shared/infra/http/app'
+import { TestsDataSource } from '../../../../../shared/infra/typeorm/connections/tests'
+import { Product } from '../../typeorm/entities/Product'
+import { User } from '../../../../users/infra/typeorm/entities/User'
 
 describe('Products Controller Test', () => {
-	beforeAll(async () => {
-		connection = await TestDataSource.initialize()
-		await connection.runMigrations()
+	let connection: DataSource
 
+	beforeAll(async () => {
+		connection = await TestsDataSource.initialize()
+		await connection.runMigrations()
+	})
+
+	beforeEach(async () => {
 		const id = uuid()
 		const password = await hash('admin', 8)
 
@@ -21,8 +25,12 @@ describe('Products Controller Test', () => {
   `)
 	})
 
+	afterEach(async () => {
+		await connection.manager.clear(Product)
+		await connection.manager.clear(User)
+	})
+
 	afterAll(async () => {
-		await connection.dropDatabase()
 		await connection.destroy()
 	})
 
@@ -43,6 +51,7 @@ describe('Products Controller Test', () => {
 		})
 
 		expect(response.status).toBe(201)
+
 	})
 
 	it('Should not be able to create a product if user is not an admin', async () => {
@@ -67,7 +76,7 @@ describe('Products Controller Test', () => {
 			Authorization: `Bearer ${token}`
 		})
 
-		expect(response.status).toBe(400)
+		expect(response.status).toBe(403)
 	})
 
 	it('Should be able to update an existent product if user is an admin', async () => {
@@ -96,7 +105,6 @@ describe('Products Controller Test', () => {
 		}).set({
 			Authorization: `Bearer ${token}`
 		})
-
 
 		expect(response.status).toBe(200)
 	})
@@ -134,8 +142,7 @@ describe('Products Controller Test', () => {
 			Authorization: `Bearer ${token}`
 		})
 
-
-		expect(response.status).toBe(400)
+		expect(response.status).toBe(403)
 	})
 
 	it('Should be able to delete an existent product if user is an admin', async () => {
@@ -193,7 +200,7 @@ describe('Products Controller Test', () => {
 				Authorization: `Bearer ${token}`
 			})
 
-		expect(response.status).toBe(400)
+		expect(response.status).toBe(403)
 	})
 
 	it('Should be able to list products if user is an admin', async () => {
@@ -204,7 +211,7 @@ describe('Products Controller Test', () => {
 
 		const { token } = responseToken.body
 
-		const responseCreate = await request(app).post('/products').send({
+		await request(app).post('/products').send({
 			name: 'Biscoito',
 			description: 'Sabor morango',
 			price: 3
@@ -217,6 +224,6 @@ describe('Products Controller Test', () => {
 		})
 
 		expect(response.status).toBe(200)
-		expect(response.body.length).toEqual(10)
+		expect(response.body.length).toEqual(1)
 	})
 })

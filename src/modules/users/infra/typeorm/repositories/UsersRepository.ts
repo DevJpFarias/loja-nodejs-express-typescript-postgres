@@ -1,14 +1,14 @@
 import { Repository } from 'typeorm'
-import { PostgresDataSource } from '../../../../../shared/infra/typeorm/index'
 import { ICreateUserDTO } from '../../../dtos/ICreateUserDTO'
 import { IUsersRepository } from '../../../repositories/IUsersRepository'
 import { User } from '../entities/User'
+import { database } from '../../../../../shared/helpers/database-connection-helper'
 
 export class UsersRepository implements IUsersRepository {
 	private ormRepository: Repository<User>
 
 	constructor() {
-		this.ormRepository = PostgresDataSource.getRepository(User)
+		this.ormRepository = database.getRepository(User)
 	}
 
 	async create({

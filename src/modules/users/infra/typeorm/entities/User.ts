@@ -25,4 +25,10 @@ export class User {
 
 	@Column()
 		isAdmin: boolean
+	
+	constructor() {
+		if(!this.isAdmin) {
+			this.isAdmin = false
+		}
+	}
 }
