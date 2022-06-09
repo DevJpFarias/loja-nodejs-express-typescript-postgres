@@ -5,9 +5,11 @@
   "main": "server.js",
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/shared/infra/http/server.ts",
+    "dev-test": "cross-env NODE_ENV=test ts-node-dev --transpile-only src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
-    "test": "jest --errorOnDeprecated",
-    "seed:admin": "ts-node-dev src/shared/infra/typeorm/seed/admin.ts"
+    "test": "cross-env NODE_ENV=test jest",
+    "seed:admin": "ts-node-dev src/shared/infra/typeorm/seed/admin.ts",
+    "seed:admin-test": "cross-env NODE_ENV=test ts-node-dev src/shared/infra/typeorm/seed/admin.ts"
   },
   "keywords": [],
   "author": "",
@@ -38,10 +40,12 @@
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
     "class-transformer": "^0.5.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.10.0",
     "jest": "^27.5.1",
     "jest-mock-extended": "^2.0.5",
     "nodemon": "^2.0.15",
+    "sqlite3": "^5.0.8",
     "ts-jest": "^27.1.3",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.2"

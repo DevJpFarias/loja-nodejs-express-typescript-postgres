@@ -1,10 +1,9 @@
 import { hash } from 'bcrypt'
 import { v4 as uuid } from 'uuid'
-
-import { PostgresDataSource } from '../connections/index'
+import { database } from '../../../helpers/database-connection-helper'
 
 async function create() {
-	const connection = await PostgresDataSource.initialize()
+	const connection = await database.initialize()
 
 	const id = uuid()
 	const password = await hash('admin', 8)
