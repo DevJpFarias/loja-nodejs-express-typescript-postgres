@@ -6,10 +6,9 @@ import { DeleteProductService } from '../../../services/DeleteProduct/DeleteProd
 import { ListAllProductsService } from '../../../services/ListAllProducts/ListAllProductsService'
 import { ListProductsByNameService } from '../../../services/ListProductsByName/ListProductsByNameService'
 import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProductService'
-import { Controller } from '../../../../../protocols/controller'
 
-export class CreateProductsController implements Controller {
-	async handle (request: Request, response: Response): Promise<Response> {
+export class ProductsController {
+	async create (request: Request, response: Response): Promise<Response> {
 		const { name, description, price } = request.body
 
 		const createProductsService = container.resolve(CreateProductsService)
@@ -22,10 +21,8 @@ export class CreateProductsController implements Controller {
 
 		return response.status(201).json(product)
 	}
-}
 
-export class UpdateProductsController implements Controller {
-	async handle (request: Request, response: Response): Promise<Response> {
+	async update (request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 		const { name, description, price } = request.body
 
@@ -40,10 +37,8 @@ export class UpdateProductsController implements Controller {
 
 		return response.json(product)
 	}
-}
 
-export class DeleteProductsService implements Controller {
-	async handle (request: Request, response: Response): Promise<Response> {
+	async delete (request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 
 		const deleteProductService = container.resolve(DeleteProductService)
@@ -54,10 +49,8 @@ export class DeleteProductsService implements Controller {
 
 		return response.status(202).json(product)
 	}
-}
 
-export class ListByNameController implements Controller {
-	async handle (request: Request, response: Response): Promise<Response> {
+	async listByName (request: Request, response: Response): Promise<Response> {
 		const { name } = request.body
 
 		const listProductsByNameService = container.resolve(ListProductsByNameService)
@@ -66,10 +59,8 @@ export class ListByNameController implements Controller {
 
 		return response.json(products)
 	}
-}
 
-export class ListAllProductsController implements Controller {
-	async handle (request: Request, response: Response): Promise<Response> {
+	async listAll (request: Request, response: Response): Promise<Response> {
 		const listAllProductsService = container.resolve(ListAllProductsService)
 
 		const products = await listAllProductsService.execute()
