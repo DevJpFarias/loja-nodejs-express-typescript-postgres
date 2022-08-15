@@ -19,6 +19,8 @@ describe('Update product', () => {
 			name: 'Pizza',
 			description: 'Mista',
 			price: 50,
+			brand: 'Brand',
+			expiration_date: new Date(2022, 12, 31)
 		})
 
 		const update_product = await updateProductService.execute({
@@ -35,13 +37,11 @@ describe('Update product', () => {
 	})
 
 	it('Should not be able to update a nonexistent product', async () => {
-		expect(async () => {
-			await updateProductService.execute({
-				id: '1234',
-				name: 'Pizza',
-				description: 'Bacon',
-				price: 100
-			})
-		}).rejects.toBeInstanceOf(AppError)
+		await expect(updateProductService.execute({
+			id: '1234',
+			name: 'Pizza',
+			description: 'Bacon',
+			price: 100
+		})).rejects.toEqual(new AppError('Product not found!', 400))
 	})
 })
