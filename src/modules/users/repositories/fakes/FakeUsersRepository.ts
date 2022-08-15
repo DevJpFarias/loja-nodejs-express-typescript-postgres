@@ -2,6 +2,7 @@ import { IDeleteProductDTO } from '../../../products/dtos/IDeleteProductDTO'
 import { ICreateUserDTO } from '../../dtos/ICreateUserDTO'
 import { User } from '../../infra/typeorm/entities/User'
 import { IUsersRepository } from '../IUsersRepository'
+import { v4 as uuid } from 'uuid'
 
 export class FakeUsersRepository implements IUsersRepository {
 	private usersRepository: User[] = []
@@ -14,9 +15,13 @@ export class FakeUsersRepository implements IUsersRepository {
 		const user = new User()
 
 		Object.assign(user, {
+			id: uuid(),
 			name,
 			email,
-			password
+			password,
+			isAdmin: false,
+			created_at: new Date(),
+			updated_at: new Date()
 		})
 
 		this.usersRepository.push(user)

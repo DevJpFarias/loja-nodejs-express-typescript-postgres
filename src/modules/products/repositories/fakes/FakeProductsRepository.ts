@@ -13,6 +13,8 @@ export class FakeProductsRepository implements IProductsRepository {
 		Object.assign(product, {
 			id: uuid(),
 			name,
+			created_at: new Date(),
+			updated_at: new Date(),
 			description,
 			price,
 			brand,
