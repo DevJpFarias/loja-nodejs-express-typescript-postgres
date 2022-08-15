@@ -49,7 +49,7 @@ describe('Products creation', () => {
 	})
 
 	it('Should be able to create a new product', async () => {
-		const product = await createProductsService.execute({
+		const product: ICreateProductDTO = await createProductsService.execute({
 			name: 'Biscoito',
 			description: 'Sabor morango',
 			price: 3,
