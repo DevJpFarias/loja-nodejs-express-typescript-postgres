@@ -7,14 +7,16 @@ import { IDeleteProductDTO } from '../../dtos/IDeleteProductDTO'
 export class FakeProductsRepository implements IProductsRepository {
 	private products: Product[] = []
 
-	async create({name, description, price}: ICreateProductDTO): Promise<Product> {
+	async create({name, description, price, brand, expiration_date}: ICreateProductDTO): Promise<Product> {
 		const product = new Product()
 
 		Object.assign(product, {
 			id: uuid(),
 			name,
 			description,
-			price
+			price,
+			brand,
+			expiration_date
 		})
 
 		this.products.push(product)

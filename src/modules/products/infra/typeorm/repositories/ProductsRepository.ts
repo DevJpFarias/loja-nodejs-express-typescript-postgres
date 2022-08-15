@@ -14,12 +14,16 @@ export class ProductsRepository implements IProductsRepository {
 	async create({
 		name,
 		description,
-		price
+		price,
+		brand,
+		expiration_date
 	}: ICreateProductDTO): Promise<Product> {
 		const product = this.ormRepository.create({
 			name,
 			description,
-			price
+			price,
+			brand,
+			expiration_date
 		})
 
 		await this.ormRepository.save(product)
