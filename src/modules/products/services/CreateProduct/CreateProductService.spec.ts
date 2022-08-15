@@ -16,7 +16,9 @@ describe('Products creation', () => {
 		const data: ICreateProductDTO = {
 			name: '',
 			description: 'Sabor morango',
-			price: 3
+			price: 3,
+			brand: 'Brand',
+			expiration_date: new Date(2022, 12, 31)
 		}
 
 		await expect(createProductsService.execute(data)).rejects.toEqual(new AppError('The product must have a name', 400))
@@ -26,7 +28,9 @@ describe('Products creation', () => {
 		const data: ICreateProductDTO = {
 			name: 'Biscoito',
 			description: 'Morango',
-			price: 0
+			price: 0,
+			brand: 'Brand',
+			expiration_date: new Date(2022, 12, 31)
 		}
 
 		await expect(createProductsService.execute(data)).rejects.toEqual(new AppError('Cannot have a negative or zero value!', 400))
@@ -36,7 +40,9 @@ describe('Products creation', () => {
 		const data: ICreateProductDTO = {
 			name: 'Biscoito',
 			description: 'Sabor morango',
-			price: -3
+			price: -3,
+			brand: 'Brand',
+			expiration_date: new Date(2022, 12, 31)
 		}
 
 		await expect(createProductsService.execute(data)).rejects.toEqual(new AppError('Cannot have a negative or zero value!', 400))
@@ -46,7 +52,9 @@ describe('Products creation', () => {
 		const product = await createProductsService.execute({
 			name: 'Biscoito',
 			description: 'Sabor morango',
-			price: 3
+			price: 3,
+			brand: 'Brand',
+			expiration_date: new Date(2022, 12, 31)
 		})
 
 		expect(product).toHaveProperty('id')
