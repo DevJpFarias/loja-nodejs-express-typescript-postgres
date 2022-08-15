@@ -1,4 +1,5 @@
 import { AppError } from '../../../../shared/errors/AppError'
+import { ICreateProductDTO } from '../../dtos/ICreateProductDTO'
 import { FakeProductsRepository } from '../../repositories/fakes/FakeProductsRepository'
 import { CreateProductsService } from '../CreateProduct/CreateProductService'
 import { UpdateProductService } from './UpdateProductService'
@@ -15,13 +16,15 @@ describe('Update product', () => {
 	})
 
 	it('Should be able to update a product', async () => {
-		const product = await createProductsService.execute({
+		const data: ICreateProductDTO = {
 			name: 'Pizza',
 			description: 'Mista',
 			price: 50,
 			brand: 'Brand',
 			expiration_date: new Date(2022, 12, 31)
-		})
+		}
+
+		const product = await createProductsService.execute(data)
 
 		const update_product = await updateProductService.execute({
 			id: product.id,
