@@ -19,6 +19,12 @@ export class Product {
   @Column()
   	description: string
 
+	@Column()
+		brand: string
+
   @Column()
   	price: number
+
+	@Column()
+		expiration_date: Date
 }

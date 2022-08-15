@@ -33,8 +33,16 @@ export class CreateProducts1646602094921 implements MigrationInterface {
 						type: 'varchar'
 					},
 					{
+						name: 'brand',
+						type: 'varchar'
+					},
+					{
 						name: 'price',
 						type: 'integer'
+					},
+					{
+						name: 'expiration_date',
+						type: 'timestamp'
 					}
 				]
 			})
@@ -44,5 +52,4 @@ export class CreateProducts1646602094921 implements MigrationInterface {
 	public async down(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.dropTable('products')
 	}
-
 }
