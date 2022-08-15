@@ -16,7 +16,9 @@ export class CreateProductsService {
 	async execute({
 		name,
 		description,
-		price
+		price,
+		brand,
+		expiration_date
 	}: ICreateProductDTO): Promise<Product> {
 		if(!name) throw new AppError('The product must have a name', 400)
 
@@ -25,7 +27,9 @@ export class CreateProductsService {
 		const product = await this.productsRepository.create({
 			name,
 			description,
-			price
+			price,
+			brand,
+			expiration_date
 		})
 
 		return product
