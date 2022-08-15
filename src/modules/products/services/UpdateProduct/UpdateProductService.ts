@@ -14,7 +14,7 @@ export class UpdateProductService {
 	async execute({ id, name, description, price }: IUpdateProductDTO): Promise<Product> {
 		const product = await this.productsRepository.findById(id)
 
-		if(!product) throw new AppError('Product not found!', 404)
+		if(!product) throw new AppError('Product not found!', 400)
 
 		product.name = name
 		product.description = description
