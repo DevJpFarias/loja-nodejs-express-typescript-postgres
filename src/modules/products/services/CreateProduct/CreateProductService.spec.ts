@@ -12,7 +12,7 @@ describe('Products creation', () => {
 
 	it('Should be able to create a new product', async () => {
 		const product = await createProductsService.execute({
-			name: 'Biscoito Piraquê',
+			name: 'Biscoito',
 			description: 'Sabor morango',
 			price: 3
 		})
