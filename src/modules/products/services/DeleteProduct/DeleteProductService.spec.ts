@@ -1,4 +1,5 @@
 import { AppError } from '../../../../shared/errors/AppError'
+import { ICreateProductDTO } from '../../dtos/ICreateProductDTO'
 import { FakeProductsRepository } from '../../repositories/fakes/FakeProductsRepository'
 import { CreateProductsService } from '../CreateProduct/CreateProductService'
 import { DeleteProductService } from './DeleteProductService'
@@ -15,15 +16,23 @@ describe('Delete Product', () => {
 	})
 
 	it('Should not be able to delete a nonexistent product', async () => {
-		expect(deleteProductService.execute({ id: '1234'})).rejects.toBeInstanceOf(AppError)
+		await expect(
+			deleteProductService.execute({
+				id: '1234'
+			})
+		).rejects.toEqual(new AppError('Product not found!', 404))
 	})
 
 	it('Should be able to delete a product', async () => {
-		const product = await createProductService.execute({
+		const data: ICreateProductDTO = {
 			name: 'Biscoito recheado',
 			description: 'Sabor maracujá',
-			price: 2
-		})
+			price: 2,
+			brand: 'Brand',
+			expiration_date: new Date(2022, 12, 31)
+		}
+
+		const product = await createProductService.execute(data)
 
 		const spyDelete = jest.spyOn(fakeProductsRepository, 'delete')
 
