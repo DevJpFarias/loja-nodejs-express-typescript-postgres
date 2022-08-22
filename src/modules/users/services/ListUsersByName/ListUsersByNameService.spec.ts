@@ -1,3 +1,4 @@
+import { ICreateUserDTO } from '../../dtos/ICreateUserDTO'
 import { FakeUsersRepository } from '../../repositories/fakes/FakeUsersRepository'
 import { CreateUserService } from '../CreateUser/CreateUserService'
 import { FindUsersByNameService } from './ListUsersByNameService'
@@ -14,23 +15,29 @@ describe('Find Users by Name', () => {
 	})
 
 	it('Should be able to find users by name', async () => {
-		const user1 = await createUserService.execute({
+		const data: ICreateUserDTO = {
 			name: 'João Paulo',
 			email: 'joaopaulo@gmail.com',
 			password: '1234'
-		})
+		}
 
-		const user2 = await createUserService.execute({
+		const data2: ICreateUserDTO = {
 			name: 'João Paulo',
 			email: 'paulinho@gmail.com',
 			password: '4321'
-		})
+		}
 
-		await createUserService.execute({
+		const data3: ICreateUserDTO = {
 			name: 'Paulinho',
 			email: 'jp@gmail.com',
 			password: '1231'
-		})
+		}
+
+		const user1 = await createUserService.execute(data)
+
+		const user2 = await createUserService.execute(data2)
+
+		await createUserService.execute(data3)
 
 		const spyFindByName = jest.spyOn(fakeUsersRepository, 'findByName')
 
