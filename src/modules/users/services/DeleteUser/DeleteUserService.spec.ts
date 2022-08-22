@@ -1,4 +1,5 @@
 import { AppError } from '../../../../shared/errors/AppError'
+import { ICreateUserDTO } from '../../dtos/ICreateUserDTO'
 import { FakeUsersRepository } from '../../repositories/fakes/FakeUsersRepository'
 import { CreateUserService } from '../CreateUser/CreateUserService'
 import { DeleteUserService } from './DeleteUserService'
@@ -15,11 +16,13 @@ describe('User delete', () => {
 	})
 
 	it('Should be able to delete an user', async () => {
-		const user = await createUserService.execute({
+		const data: ICreateUserDTO = {
 			name: 'João Paulo',
 			email: 'joaopaulo@gmail.com',
 			password: '1234'
-		})
+		}
+
+		const user = await createUserService.execute(data)
 
 		const spyDelete = jest.spyOn(fakeUsersRepository, 'delete')
 
@@ -30,10 +33,8 @@ describe('User delete', () => {
 	})
 
 	it('Should not be able to delete a nonexistent user', async () => {
-		expect(async () => {
-			await deleteUserService.execute({
-				id: '1234'
-			})
-		}).rejects.toBeInstanceOf(AppError)
+		await expect(deleteUserService.execute({
+			id: '1234'
+		})).rejects.toEqual(new AppError('User not found!'))
 	})
 })
