@@ -1,4 +1,5 @@
 import { AppError } from '../../../../shared/errors/AppError'
+import { ICreateUserDTO } from '../../dtos/ICreateUserDTO'
 import { FakeUsersRepository } from '../../repositories/fakes/FakeUsersRepository'
 import { CreateUserService } from './CreateUserService'
 
@@ -14,28 +15,32 @@ describe('User creation', () => {
 	it('Should be able to create a new user', async () => {
 		const spyCreate = jest.spyOn(fakeUsersRepository, 'create')
 
-		await createUserService.execute({
+		const data: ICreateUserDTO = {
 			name: 'João Paulo',
 			email: 'joaopaulo@gmail.com',
 			password: '1234'
-		})
+		}
+
+		const user = await createUserService.execute(data)
 
 		expect(spyCreate).toBeCalledTimes(1)
+		expect(user).toHaveProperty('id')
 	})
 
 	it('Should not be able to create a new user with an existent email', async () => {
-		expect(async () => {
-			await createUserService.execute({
-				name: 'João Paulo',
-				email: 'joaopaulo@gmail.com',
-				password: '1234'
-			})
+		const data: ICreateUserDTO = {
+			name: 'João Paulo',
+			email: 'joaopaulo@gmail.com',
+			password: '1234'
+		}
 
-			await createUserService.execute({
-				name: 'Paulinho',
-				email: 'joaopaulo@gmail.com',
-				password: '1234'
-			})
-		}).rejects.toBeInstanceOf(AppError)
+		await createUserService.execute(data)
+
+		await expect(createUserService.execute({
+			name: 'Paulinho',
+			email: 'joaopaulo@gmail.com',
+			password: '1234'
+		})
+		).rejects.toEqual(new AppError('Email already exists!', 400))
 	})
 })
