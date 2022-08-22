@@ -1,5 +1,5 @@
 {
-  "name": "loja-nodejs-express-typescript-mysql",
+  "name": "loja-nodejs-express-typescript-postgres",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
