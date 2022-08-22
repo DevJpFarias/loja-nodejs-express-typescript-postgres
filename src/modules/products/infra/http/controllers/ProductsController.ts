@@ -9,14 +9,16 @@ import { UpdateProductService } from '../../../services/UpdateProduct/UpdateProd
 
 export class ProductsController {
 	async create (request: Request, response: Response): Promise<Response> {
-		const { name, description, price } = request.body
+		const { name, description, price, brand, expiration_date } = request.body
 
 		const createProductsService = container.resolve(CreateProductsService)
 
 		const product = await createProductsService.execute({
 			name,
 			description,
-			price
+			price,
+			brand,
+			expiration_date
 		})
 
 		return response.status(201).json(product)
