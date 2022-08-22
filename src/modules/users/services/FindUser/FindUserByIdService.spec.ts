@@ -1,4 +1,5 @@
 import { AppError } from '../../../../shared/errors/AppError'
+import { ICreateUserDTO } from '../../dtos/ICreateUserDTO'
 import { FakeUsersRepository } from '../../repositories/fakes/FakeUsersRepository'
 import { CreateUserService } from '../CreateUser/CreateUserService'
 import { FindUserByIdService } from './FindUserByIdService'
@@ -15,11 +16,13 @@ describe('Find User by Id', () => {
 	})
 
 	it('Should be able to find one user with her id', async () => {
-		const user = await createUserService.execute({
+		const data: ICreateUserDTO = {
 			name: 'João Paulo',
 			email: 'joaopaulo@gmail.com',
 			password: '1234'
-		})
+		}
+
+		const user = await createUserService.execute(data)
 
 		const spyFindById = jest.spyOn(fakeUsersRepository, 'findById')
 
@@ -31,8 +34,7 @@ describe('Find User by Id', () => {
 	})
 
 	it('Should not be able to find an nonexistent user', async () => {
-		expect(async () => {
-			await findUserByIdService.execute('1234')
-		}).rejects.toBeInstanceOf(AppError)
+		await expect(findUserByIdService.execute('1234')
+		).rejects.toEqual(new AppError('User not found!'))
 	})
 })
