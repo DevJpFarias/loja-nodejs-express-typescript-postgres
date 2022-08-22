@@ -1,4 +1,5 @@
 import { AppError } from '../../../../shared/errors/AppError'
+import { ICreateUserDTO } from '../../dtos/ICreateUserDTO'
 import { FakeUsersRepository } from '../../repositories/fakes/FakeUsersRepository'
 import { CreateUserService } from '../CreateUser/CreateUserService'
 import { AuthenticateUserService } from './AuthenticateUserService'
@@ -14,27 +15,26 @@ describe('User authentication', () => {
 		authenticateUserService = new AuthenticateUserService(fakeUsersRepository)
 	})
 
-	it('Should not be able to authenticate an nonexistent user', () => {
-		expect(async () => {
-			await authenticateUserService.execute({
-				email: 'joaopaulo@gmail.com',
-				password: '1234'
-			})
-		}).rejects.toBeInstanceOf(AppError)
+	it('Should not be able to authenticate an nonexistent user', async () => {
+		await expect(authenticateUserService.execute({
+			email: 'joaopaulo@gmail.com',
+			password: '1234'
+		})
+		).rejects.toEqual(new AppError('Incorrect email or password'))
 	})
 
-	it('Should not be able to do login with an wrong password', () => {
-		expect(async () => {
-			const user = await createUserService.execute({
-				name: 'João Paulo',
-				email: 'joaopaulo@gmail.com',
-				password: '1234'
-			})
+	it('Should not be able to do login with an wrong password', async () => {
+		const data: ICreateUserDTO = {
+			name: 'João Paulo',
+			email: 'joaopaulo@gmail.com',
+			password: '1234'
+		}
 
-			await authenticateUserService.execute({
-				email: user.email,
-				password: '4321'
-			})
-		}).rejects.toBeInstanceOf(AppError)
+		const user = await createUserService.execute(data)
+
+		await expect(authenticateUserService.execute({
+			email: user.email,
+			password: '4321'
+		})).rejects.toEqual(new AppError('Incorrect email or password'))
 	})
 })
