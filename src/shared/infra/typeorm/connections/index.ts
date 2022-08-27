@@ -12,6 +12,5 @@ export const PostgresDataSource = new DataSource({
 	entities: [User, Product],
 	migrations: [
 		'./src/shared/infra/typeorm/migrations/*.ts'
-	],
-	synchronize: true
+	]
 })
