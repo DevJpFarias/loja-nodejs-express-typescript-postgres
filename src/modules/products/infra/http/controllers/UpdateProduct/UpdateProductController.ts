@@ -1,14 +1,15 @@
-import 'reflect-metadata'
 import { Request, Response } from 'express'
-import { container } from 'tsyringe'
 import { UpdateProductService } from '../ProductsControllerHelpers'
+import { ProductsRepository } from '../../../typeorm/repositories/ProductsRepository'
+
+const productsRepository = new ProductsRepository()
 
 export class UpdateProductController {
 	async handle (request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 		const { name, description, price } = request.body
 
-		const updateProductService = container.resolve(UpdateProductService)
+		const updateProductService = new UpdateProductService(productsRepository)
 
 		const product = await updateProductService.execute({
 			id,
