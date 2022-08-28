@@ -1,13 +1,17 @@
-import { inject, injectable } from 'tsyringe'
 import { Product } from '../../infra/typeorm/entities/Product'
+import { ProductsRepository } from '../../infra/typeorm/repositories/ProductsRepository'
 import { IProductsRepository } from '../../repositories/IProductsRepository'
 
-@injectable()
 export class ListAllProductsService {
-	constructor(
-    @inject('ProductsRepository')
-    private productsRepository: IProductsRepository
-	) {}
+	private productsRepository: IProductsRepository
+
+	constructor(repository: IProductsRepository) {
+		this.productsRepository = repository
+
+		if(!repository) {
+			this.productsRepository = new ProductsRepository()
+		}
+	}
 
 	async execute(): Promise<Product[]> {
 		const products = await this.productsRepository.listAll()
