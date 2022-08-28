@@ -16,7 +16,7 @@ const updateProductController = new UpdateProductController()
 const deleteProductController = new DeleteProductController()
 
 productsRouter.post('/', ensureAuthenticated, ensureAdmin, createProductController.handle)
-productsRouter.get('/listByName/', listProductsByNameController.handle)
+productsRouter.get('/listByName', listProductsByNameController.handle)
 productsRouter.get('/', listAllProductsController.handle)
 productsRouter.put('/:id', ensureAuthenticated, ensureAdmin, updateProductController.handle)
 productsRouter.delete('/delete/:id', ensureAuthenticated, ensureAdmin, deleteProductController.handle)
