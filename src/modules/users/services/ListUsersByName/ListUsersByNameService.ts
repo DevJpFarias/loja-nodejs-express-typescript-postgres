@@ -1,13 +1,17 @@
-import { inject, injectable } from 'tsyringe'
 import { User } from '../../infra/typeorm/entities/User'
+import { UsersRepository } from '../../infra/typeorm/repositories/UsersRepository'
 import { IUsersRepository } from '../../repositories/IUsersRepository'
 
-@injectable()
 export class FindUsersByNameService {
-	constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository
-	) {}
+	private usersRepository: IUsersRepository
+
+	constructor(repository: IUsersRepository) {
+		this.usersRepository = repository
+
+		if(!this.usersRepository) {
+			this.usersRepository = new UsersRepository()
+		}
+	}
 
 	async execute(name: string): Promise<User[]> {
 		const users = await this.usersRepository.findByName(name)

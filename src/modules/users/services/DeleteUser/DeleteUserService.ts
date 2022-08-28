@@ -1,14 +1,18 @@
-import { inject, injectable } from 'tsyringe'
 import { AppError } from '../../../../shared/errors/AppError'
 import { IDeleteUserDTO } from '../../dtos/IDeleteUserDTO'
 import { IUsersRepository } from '../../repositories/IUsersRepository'
+import { UsersRepository } from '../../infra/typeorm/repositories/UsersRepository'
 
-@injectable()
 export class DeleteUserService {
-	constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository
-	) {}
+	private usersRepository: IUsersRepository
+
+	constructor(repository: IUsersRepository) {
+		this.usersRepository = repository
+
+		if(!this.usersRepository) {
+			this.usersRepository = new UsersRepository()
+		}
+	}
 
 	async execute({ id }: IDeleteUserDTO): Promise<void> {
 		const user = await this.usersRepository.findById(id)

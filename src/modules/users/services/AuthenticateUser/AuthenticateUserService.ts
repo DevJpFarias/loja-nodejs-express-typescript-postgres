@@ -1,9 +1,9 @@
-import { inject, injectable } from 'tsyringe'
 import { AppError } from '../../../../shared/errors/AppError'
 import { IUsersRepository } from '../../repositories/IUsersRepository'
 import { compare } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import { User } from '../../infra/typeorm/entities/User'
+import { UsersRepository } from '../../infra/typeorm/repositories/UsersRepository'
 
 interface IRequest {
   email: string
@@ -15,12 +15,16 @@ interface IResponse {
   token: string
 }
 
-@injectable()
 export class AuthenticateUserService {
-	constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository
-	) {}
+	private usersRepository: IUsersRepository
+
+	constructor(repository: IUsersRepository) {
+		this.usersRepository = repository
+
+		if(!this.usersRepository) {
+			this.usersRepository = new UsersRepository()
+		}
+	}
 
 	async execute({ email, password }: IRequest): Promise<IResponse> {
 		const user = await this.usersRepository.findByEmail(email)

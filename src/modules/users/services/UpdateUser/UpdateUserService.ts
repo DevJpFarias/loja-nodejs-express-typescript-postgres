@@ -1,15 +1,19 @@
-import { inject, injectable } from 'tsyringe'
 import { AppError } from '../../../../shared/errors/AppError'
 import { IUpdateUserDTO } from '../../dtos/IUpdateUserDTO'
 import { User } from '../../infra/typeorm/entities/User'
+import { UsersRepository } from '../../infra/typeorm/repositories/UsersRepository'
 import { IUsersRepository } from '../../repositories/IUsersRepository'
 
-@injectable()
 export class UpdateUserService {
-	constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository
-	) {}
+	private usersRepository: IUsersRepository
+
+	constructor(repository: IUsersRepository) {
+		this.usersRepository = repository
+
+		if(!this.usersRepository) {
+			this.usersRepository = new UsersRepository()
+		}
+	}
 
 	async execute({
 		id,
