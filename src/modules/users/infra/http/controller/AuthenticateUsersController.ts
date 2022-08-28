@@ -1,13 +1,15 @@
 import { instanceToInstance } from 'class-transformer'
 import { Request, Response } from 'express'
-import { container } from 'tsyringe'
 import { AuthenticateUserService } from '../../../services/AuthenticateUser/AuthenticateUserService'
+import { UsersRepository } from '../../typeorm/repositories/UsersRepository'
 
-export class AuthenticateUsersController {
-	async authentication(request: Request, response: Response): Promise<Response> {
+const usersRepository = new UsersRepository()
+
+export class AuthenticateUserController {
+	async handle(request: Request, response: Response): Promise<Response> {
 		const { email, password } = request.body
 
-		const authenticateUserService = container.resolve(AuthenticateUserService)
+		const authenticateUserService = new AuthenticateUserService(usersRepository)
 
 		const { user, token } = await authenticateUserService.execute({
 			email,
