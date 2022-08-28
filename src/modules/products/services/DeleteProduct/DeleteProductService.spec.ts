@@ -20,7 +20,7 @@ describe('Delete Product', () => {
 			deleteProductService.execute({
 				id: '1234'
 			})
-		).rejects.toEqual(new AppError('Product not found!', 404))
+		).rejects.toEqual(new AppError('Product not found!', 400))
 	})
 
 	it('Should be able to delete a product', async () => {
