@@ -1,17 +1,19 @@
-//import { AppError } from '../../../shared/errors/AppError'
-import { inject, injectable } from 'tsyringe'
-
+import 'reflect-metadata'
 import { Product } from '../../infra/typeorm/entities/Product'
 import { IProductsRepository } from '../../repositories/IProductsRepository'
 import { ICreateProductDTO} from '../../dtos/ICreateProductDTO'
 import { AppError } from '../../../../shared/errors/AppError'
 
-@injectable()
 export class CreateProductsService {
-	constructor(
-    @inject('ProductsRepository')
-    private productsRepository: IProductsRepository
-	) {}
+	private productsRepository: IProductsRepository
+
+	constructor(repository: IProductsRepository) {
+		this.productsRepository = repository
+		
+		if(!repository) {
+			this.productsRepository = repository
+		}
+	}
 
 	async execute({
 		name,
