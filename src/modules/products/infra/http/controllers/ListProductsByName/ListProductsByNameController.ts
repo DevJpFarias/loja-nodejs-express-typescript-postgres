@@ -1,13 +1,14 @@
-import 'reflect-metadata'
 import { Request, Response } from 'express'
-import { container } from 'tsyringe'
 import { ListProductsByNameService } from '../ProductsControllerHelpers'
+import { ProductsRepository } from '../../../typeorm/repositories/ProductsRepository'
+
+const productsRepository = new ProductsRepository()
 
 export class ListProductsByNameController {
 	async handle (request: Request, response: Response): Promise<Response> {
 		const { name } = request.body
 
-		const listProductsByNameService = container.resolve(ListProductsByNameService)
+		const listProductsByNameService = new ListProductsByNameService(productsRepository)
 
 		const products = await listProductsByNameService.execute(name)
 
