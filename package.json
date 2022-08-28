@@ -25,7 +25,6 @@
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.2.2",
-    "tsyringe": "^4.6.0",
     "typeorm": "^0.3.6",
     "uuid": "^8.3.2"
   },
