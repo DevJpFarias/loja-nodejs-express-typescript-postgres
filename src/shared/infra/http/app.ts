@@ -8,7 +8,6 @@ import { errors } from 'celebrate'
 import { AppError } from '../../errors/AppError'
 import { connection } from '../../helpers/connection-helper'
 
-import '../../container'
 import '../typeorm/connections'
 
 connection()
